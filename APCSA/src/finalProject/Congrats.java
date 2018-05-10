@@ -6,7 +6,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 public class Congrats {
 
-		private int speed;
 		private Image image;
 
 		public Congrats()

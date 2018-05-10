@@ -13,6 +13,8 @@ import java.util.Random;
 
 import unit17.Alien;
 import unit17.Ammo;
+import unit17.PowerUp;
+import unit17.Ship;
 
 
 
@@ -28,6 +30,7 @@ public class Street extends Canvas implements KeyListener, Runnable {
 	private Car c5;
 	private Car c6;
 	
+	private int score;
 	private Congrats co;
 	private Cars cmat;
 	
@@ -37,6 +40,8 @@ public class Street extends Canvas implements KeyListener, Runnable {
 	private Car[][] car;
 
 	private boolean play;
+	
+	private PU p;
 	
 	boolean win = false;
 	/* uncomment once you are ready for this part
@@ -69,6 +74,7 @@ public class Street extends Canvas implements KeyListener, Runnable {
 		c5 = new Car (1200, 350, -2);
 		c6 = new Car (1100, 250, -2);
 		play = false;
+		score = 0;
 
 		cars.add(c1);		
 		cars.add(c2);
@@ -82,6 +88,7 @@ public class Street extends Canvas implements KeyListener, Runnable {
 		cmat = new Cars();
 		car = cmat.makeCars();
  
+		p = new PU(100,150,2);
 		
 		for (Car[] x : car){
 			for (Car ca : x){
@@ -127,9 +134,12 @@ public class Street extends Canvas implements KeyListener, Runnable {
 		graphToBack.drawString("Click the arrows to move. ", 25, 250 );
 		graphToBack.drawString("As you continue, the levels will get harder. \n ", 25, 200 );
 		graphToBack.drawString("If you do hit a car, you will go down a level. \n ", 25, 150 );
-		graphToBack.drawString("Level: " + level, 700, 50 );
+		graphToBack.drawString("Collect coins to increase your score! \n ", 25, 300 );
 
-		graphToBack.drawString("Press space to begin! ", 25, 300 );
+		graphToBack.drawString("Level: " + level, 700, 50 );
+		graphToBack.drawString("Score: " + score, 700, 100 );
+
+		graphToBack.drawString("Press space to begin! ", 25, 350 );
 
 		c.draw(graphToBack);
 		
@@ -161,7 +171,6 @@ public class Street extends Canvas implements KeyListener, Runnable {
 		}
 		if(keys[4] == true)
 		{
-			System.out.println("hi");
 			play = true;
 		}
 
@@ -174,8 +183,10 @@ public class Street extends Canvas implements KeyListener, Runnable {
 			graphToBack.drawString("Click the arrows to move. ", 25, 250 );
 			graphToBack.drawString("As you continue, the levels will get harder. \n ", 25, 200 );
 			graphToBack.drawString("If you do hit a car, you will go down a level. \n ", 25, 150 );
+			graphToBack.drawString("Collect coins to increase your score! \n ", 25, 300 );
 
-			graphToBack.drawString("Press space to begin! ", 25, 300 );
+			graphToBack.drawString("Press space to begin! ", 25, 350 );
+			p.draw(graphToBack);
 
 			c.setSpeed(5);
 			for (Car x : cars){
@@ -278,7 +289,24 @@ public class Street extends Canvas implements KeyListener, Runnable {
 			}
 		}
 
+		if (p.getX() -40 < c.getX() && p.getX() + 40 > c.getX()){
+			if (p.getY() < c.getY() && p.getY() + 40 > c.getY()){
+				
+				c=new Character(c.getX(), c.getY(), c.getSpeed());
+				
+				System.out.println(c.getX() + " " + p.getX());
+				p.setPos(10000, 10000);
+				score++;
+			}
+		}
+		
+		if (p.getY()>730){
+			p.setY(30);
+			Random rand = new Random();
 
+			int b = rand.nextInt(800)+1;			
+			p.setX(b);
+		}	
 		}
 	
 
